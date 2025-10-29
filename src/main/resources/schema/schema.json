@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "rootNode": ""
+  },
+  "@xsdNamespaces": {
+    "xsd": "http://www.w3.org/2001/XMLSchema",
+    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "seres": "http://seres.no/xsd/forvaltningsdata"
+  },
+  "@xsdSchemaAttributes": {
+    "AttributeFormDefault": "Unqualified",
+    "ElementFormDefault": "Qualified",
+    "BlockDefault": "None",
+    "FinalDefault": "None"
+  },
+  "@xsdRootElement": "model",
+  "type": "object",
+  "$defs": {
+    "Aktor": {
+      "type": "object",
+      "properties": {
+        "personnummer": {
+          "type": "string"
+        },
+        "fornavn": {
+          "type": "string"
+        },
+        "mellomnavn": {
+          "type": "string"
+        },
+        "etternavn": {
+          "type": "string"
+        },
+        "organisasjonsnummer": {
+          "type": "string"
+        },
+        "organisasjonsnavn": {
+          "type": "string"
+        },
+        "adresse": {
+          "$ref": "#/$defs/Adresse"
+        },
+        "epostadresse": {
+          "type": "string"
+        },
+        "telefonnummer": {
+          "type": "string"
+        }
+      }
+    },
+    "Adresse": {
+      "type": "object",
+      "properties": {
+        "gateadresse": {
+          "type": "string"
+        },
+        "husnr": {
+          "type": "string"
+        },
+        "husbokstav": {
+          "type": "string"
+        },
+        "postnr": {
+          "type": "string"
+        },
+        "poststed": {
+          "type": "string"
+        },
+        "gateadressefull": {
+          "type": "string"
+        },
+        "koordinat": {
+          "type": "string"
+        },
+        "fulltnavn": {
+          "type": "string"
+        }
+      }
+    },
+    "Prefilldata": {
+      "type": "object",
+      "title": "",
+      "properties": {
+        "tilsynsobjekt": {
+          "$ref": "#/$defs/Tilsynsobjekt"
+        }
+      }
+    },
+    "Tilsynsobjekt": {
+      "type": "object",
+      "properties": {
+        "idstring": {
+          "type": "string"
+        },
+        "navn": {
+          "type": "string"
+        },
+        "gyldigfra": {
+          "type": "string"
+        },
+        "gyldigtil": {
+          "type": "string"
+        },
+        "aktivitetid": {
+          "type": "string"
+        },
+        "statusid": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "gateadresse": {
+          "type": "string"
+        },
+        "postnummer": {
+          "type": "string"
+        },
+        "poststed": {
+          "type": "string"
+        },
+        "detaljer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Detalj"
+          }
+        },
+        "tilsynsobjekter": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Undertilsynsobjekt"
+          }
+        }
+      }
+    },
+    "Detalj": {
+      "type": "object",
+      "properties": {
+        "idstring": {
+          "type": "string"
+        },
+        "businessobjectref": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "attrvalue": {
+          "type": "string"
+        }
+      }
+    },
+    "Godkjenning": {
+      "type": "object",
+      "properties": {
+        "idstring": {
+          "type": "string"
+        },
+        "typeid": {
+          "type": "string"
+        },
+        "statusid": {
+          "type": "string"
+        },
+        "gyldigfra": {
+          "type": "string"
+        },
+        "gyldigtil": {
+          "type": "string"
+        },
+        "detaljer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Detalj"
+          }
+        }
+      }
+    },
+    "Undertilsynsobjekt": {
+      "type": "object",
+      "properties": {
+        "idstring": {
+          "type": "string"
+        },
+        "navn": {
+          "type": "string"
+        },
+        "plasstype": {
+          "type": "string"
+        },
+        "gyldigfra": {
+          "type": "string"
+        },
+        "gyldigtil": {
+          "type": "string"
+        },
+        "aktivitetid": {
+          "type": "string"
+        },
+        "statusid": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "gateadresse": {
+          "type": "string"
+        },
+        "postnummer": {
+          "type": "string"
+        },
+        "poststed": {
+          "type": "string"
+        },
+        "detaljer": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Detalj"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "innloggetBruker": {
+      "$ref": "#/$defs/Aktor"
+    },
+    "avgiver": {
+      "$ref": "#/$defs/Aktor"
+    },
+    "prefilldata": {
+      "$ref": "#/$defs/Prefilldata"
+    },
+    "instanceId": {
+      "type": "string"
+    }
+  }
+}

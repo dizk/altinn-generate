@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://altinn-repositories:3000/digdir/regvil-2025-slutt/App/models/DataModel.schema.json",
+  "info": {
+    "rootNode": ""
+  },
+  "@xsdNamespaces": {
+    "xsd": "http://www.w3.org/2001/XMLSchema",
+    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "seres": "http://seres.no/xsd/forvaltningsdata"
+  },
+  "@xsdSchemaAttributes": {
+    "AttributeFormDefault": "Unqualified",
+    "ElementFormDefault": "Qualified",
+    "BlockDefault": "None",
+    "FinalDefault": "None"
+  },
+  "@xsdRootElement": "DataModel",
+  "type": "object",
+  "$defs": {
+    "Kontaktperson": {
+      "type": "object",
+      "properties": {
+        "FulltNavn": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "Telefonnummer": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "EPostadresse": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 500
+        }
+      }
+    },
+    "AndreVirksomheter": {
+      "type": "object",
+      "properties": {
+        "Navn": {
+          "type": "string",
+          "maxLength": 5000
+        }
+      }
+    },
+    "Valg": {
+      "type": "object",
+      "properties": {
+        "Nummer": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "Tekst": {
+          "type": "string",
+          "maxLength": 5000
+        }
+      }
+    },
+    "Tiltak": {
+      "type": "object",
+      "properties": {
+        "Nummer": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "Tekst": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "ErDeltiltak": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AnsvarligEnhet": {
+      "type": "object",
+      "properties": {
+        "Navn": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "Organisasjonsnummer": {
+          "type": "string",
+          "maxLength": 11
+        }
+      }
+    },
+    "Godkjenning": {
+      "type": "object",
+      "properties": {
+        "SkalGodkjennes": {
+          "type": "boolean"
+        },
+        "Godkjenner": {
+          "$ref": "#/$defs/Kontaktperson"
+        }
+      }
+    },
+    "Prefill": {
+      "type": "object",
+      "properties": {
+        "Tiltak": {
+          "$ref": "#/$defs/Tiltak"
+        },
+        "Kapittel": {
+          "$ref": "#/$defs/Valg"
+        },
+        "Maal": {
+          "$ref": "#/$defs/Valg"
+        },
+        "AnsvarligDepartement": {
+          "$ref": "#/$defs/AnsvarligEnhet"
+        },
+        "AnsvarligVirksomhet": {
+          "$ref": "#/$defs/AnsvarligEnhet"
+        },
+        "Kontaktperson": {
+          "$ref": "#/$defs/Kontaktperson"
+        },
+        "Godkjenning": {
+          "$ref": "#/$defs/Godkjenning"
+        }
+      }
+    },
+    "Initiell": {
+      "type": "object",
+      "properties": {
+        "TiltakKortnavn": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "AndreMaal": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Valg"
+          }
+        },
+        "AndreVirksomheter": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/AndreVirksomheter"
+          }
+        },
+        "Kontaktperson": {
+          "$ref": "#/$defs/Kontaktperson"
+        },
+        "AndreKontaktpersoner": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Kontaktperson"
+          }
+        },
+        "ErTiltaketPaabegynt": {
+          "type": "boolean"
+        },
+        "DatoPaabegynt": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "DatoForventetOppstart": {
+          "type": "string",
+          "maxLength": 100
+        }
+      }
+    },
+    "Leveranse": {
+      "type": "object",
+      "properties": {
+        "Beskrivelse": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "Status": {
+          "type": "string",
+          "maxLength": 100
+        }
+      }
+    },
+    "Oppstart": {
+      "type": "object",
+      "properties": {
+        "ForventetSluttdato": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "HarKostnadsestimat": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "Kostnadsestimat": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "HarFinansiering": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "Finansieringskilder": {
+          "type": "string",
+          "maxLength": 100
+        }
+      }
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "ErArbeidAvsluttet": {
+          "type": "boolean"
+        },
+        "TiltakStatus": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "ForsinkelseTiltakBeskrivelse": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "Nettside": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "HindringerLikert": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Likert"
+          }
+        },
+        "HindringerBeskrivelse": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "DrivereLikert": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Likert"
+          }
+        },
+        "DrivereBeskrivelse": {
+          "type": "string",
+          "maxLength": 500
+        }
+      }
+    },
+    "Slutt": {
+      "type": "object",
+      "properties": {
+        "TiltakArbeidBeskrivelse": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "HindringerLikert": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Likert"
+          }
+        },
+        "HindringerBeskrivelse": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "DrivereLikert": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Likert"
+          }
+        },
+        "DrivereBeskrivelse": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "LaerdommerBeskrivelse": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
+    },
+    "Likert": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "Svar": {
+          "type": "string",
+          "maxLength": 500
+        }
+      }
+    }
+  },
+  "properties": {
+    "Prefill": {
+      "$ref": "#/$defs/Prefill"
+    },
+    "Initiell": {
+      "$ref": "#/$defs/Initiell"
+    },
+    "Oppstart": {
+      "$ref": "#/$defs/Oppstart"
+    },
+    "Status": {
+      "$ref": "#/$defs/Status"
+    },
+    "Slutt": {
+      "$ref": "#/$defs/Slutt"
+    },
+    "Leveranser": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/Leveranse"
+      }
+    }
+  }
+}

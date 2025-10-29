@@ -1,0 +1,43 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Title",
+    "description": "Title",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/model"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "model": {
+        "comment": "This is a schema from Altinn Studio",
+        "$ref": "schema.json"
+      },
+      "declaration": {
+        "comment": "This is another schema from Altinn Studio",
+        "$ref": "schema2.json"
+      }
+    }
+  }
+}
