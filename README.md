@@ -30,6 +30,100 @@ Business Domain (Backend) → View Model (Altinn Studio) → Business Domain (Ba
 3. Kjør `./gradlew build` - OpenAPI Generator genererer Kotlin-modeller
 4. Bruk modellene i backend for prefill og mottak av data
 
+## OpenAPI-integrasjon
+
+Altinn Studio genererer datamodeller som **JSON Schema** (Draft 2020-12). Innsikten i dette prosjektet er at disse schemaene kan sys sammen med OpenAPI-spesifikasjonen for å utnytte det modne økosystemet rundt [OpenAPI Generator](https://openapi-generator.tech/).
+
+### Hvorfor OpenAPI Generator?
+
+OpenAPI Generator er et veletablert verktøy med:
+- **Bred språkstøtte** - Generer modeller til Kotlin, Java, TypeScript, Python, Go, osv.
+- **Moden kodegenerator** - Aktivt vedlikeholdt med stor brukermasse
+- **Skreddersydd output** - Støtte for serialisering (kotlinx.serialization, Jackson, Gson)
+- **Konsistent API** - Samme tilnærming på tvers av språk og rammeverk
+
+### Teknisk tilnærming
+
+Altinn Studio eksporterer JSON Schema-filer som beskriver datamodellen. Disse kan ikke brukes direkte av OpenAPI Generator, men kan integreres i en OpenAPI-spesifikasjon.
+
+**Steg 1: Eksporter JSON Schema fra Altinn Studio**
+
+Last ned datamodellen som JSON Schema og plasser den i `src/main/resources/schema/`:
+```
+src/main/resources/schema/
+├── schema.json          # Altinn Studio datamodell
+├── schema2.json         # Evt. flere datamodeller
+└── spec.json            # OpenAPI-spesifikasjon (se under)
+```
+
+**Steg 2: Referer til schema-filene i OpenAPI-spesifikasjonen**
+
+Opprett `spec.json` som refererer til Altinn-schemaene via `$ref`:
+
+```json
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Altinn Datamodeller",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Model": {
+        "comment": "Datamodell fra Altinn Studio",
+        "$ref": "schema.json"
+      },
+      "Declaration": {
+        "comment": "Annen datamodell fra Altinn Studio",
+        "$ref": "schema2.json"
+      }
+    }
+  }
+}
+```
+
+Nøkkelen er `"$ref": "schema.json"` som refererer til den faktiske JSON Schema-filen eksportert fra Altinn Studio. OpenAPI Generator vil da:
+1. Lese `schema.json` fra samme mappe
+2. Parse `$defs` og `properties` i Altinn-schemaet
+3. Generere Kotlin data classes basert på strukturen
+
+**Eksempel på Altinn Studio JSON Schema:**
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "$defs": {
+    "Aktor": {
+      "type": "object",
+      "properties": {
+        "fornavn": { "type": "string" },
+        "etternavn": { "type": "string" },
+        "adresse": { "$ref": "#/$defs/Adresse" }
+      }
+    },
+    "Adresse": {
+      "type": "object",
+      "properties": {
+        "gateadresse": { "type": "string" },
+        "postnr": { "type": "string" }
+      }
+    }
+  },
+  "properties": {
+    "innloggetBruker": { "$ref": "#/$defs/Aktor" }
+  }
+}
+```
+
+Ved å pakke JSON Schema inn i en OpenAPI-spesifikasjon får vi:
+- **Type-generering** - Kotlin data classes, Java POJOs, TypeScript interfaces
+- **Serialisering** - Automatisk støtte for JSON-serialisering
+- **Validering** - Schema-basert validering av data
+- **Dokumentasjon** - Generert dokumentasjon av datamodellen
+
+Dette gjør det mulig å ha en **felles datamodell** mellom Altinn-appen (C#) og backend (Kotlin/Java/etc.) uten manuell synkronisering.
+
 ## Eksempel: Backend-tjeneste med Prefill
 
 **Backend (Kotlin):**
