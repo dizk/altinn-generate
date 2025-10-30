@@ -23,7 +23,7 @@ Business Domain (Backend) → View Model (Altinn Studio) → Business Domain (Ba
 
 **Resultat:** Altinn-appen (frontend) inneholder kun datamodell og GUI - all mapping og forretningslogikk er i backend.
 
-## Hvordan Det Fungerer
+## Hvordan det Fungerer
 
 1. Eksporter JSON Schema fra Altinn Studio
 2. Plasser den i `src/main/resources/schema/`
